@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shopping Cart</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <section>
+      <div class="container">
+        <div class="cart">
+          <div class="col-md-12 col-lg-10 mx-auto">
+            <div class="cart-item">
+              <div class="row">
+                <div class="col-md-7 center-item">
+                  <img src="images/product-1.png" alt="" />
+                  <h5>iPhone 11 128GB Black</h5>
+                </div>
+
+                <div class="col-md-5 center-item">
+                  <div class="input-group number-spinner">
+                    <button id="phone-minus" class="btn btn-default">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input
+                      type="text"
+                      id="phone-quantity"
+                      class="form-control text-center"
+                      value="1"
+                    />
+                    <button id="phone-plus" class="btn btn-default">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <h5>$ <span id="phone-tot-price">1219</span></h5>
+                  <img src="images/remove.png" alt="" class="remove-item" />
+                </div>
+              </div>
+            </div>
+
+            <div class="cart-item">
+              <div class="row">
+                <div class="col-md-7 center-item mx-auto">
+                  <img src="images/product-2.png" alt="" />
+                  <h5>iPhone 11 Silicone Case - Black</h5>
+                </div>
+                <div class="col-md-5 center-item">
+                  <div class="input-group number-spinner">
+                    <button id="cover-minus" class="btn btn-default">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input
+                      type="text"
+                      id="cover-quantity"
+                      class="form-control text-center"
+                      value="1"
+                    />
+                    <button id="cover-plus" class="btn btn-default">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <h5>$<span id="cover-tot-price">59</span></h5>
+                  <img src="images/remove.png" alt="" class="remove-item" />
+                </div>
+              </div>
+            </div>
+
+            <div class="cart-item">
+              <div class="row">
+                <div class="col-md-8">
+                  <h5>Subtotal:</h5>
+                  <h5>Tax:</h5>
+                  <h5>Total:</h5>
+                </div>
+
+                <div class="col-md-4 status">
+                  <h5>$ <span id="sub-total">1,278</span></h5>
+                  <h5>$ <span id="tax">10</span></h5>
+                  <h5>$ <span id="total">1,278</span></h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 pt-4 pb-4">
+              <button type="button" class="btn btn-success check-out">
+                Check Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      // Function declaration
+      function UpdatedPrice(idPrice, SinglePrice) {
+        const CurrentPrice = document.getElementById(idPrice).innerText;
+        CurrentPriceNum = parseInt(CurrentPrice);
+        const UpdatedPrice = CurrentPriceNum + SinglePrice;
+        document.getElementById(idPrice).innerText = UpdatedPrice;
+      }
+
+      function subTotalAndTotPrice(idPhonePriceTot, idCoverPriceTot) {
+        const phoneTotalPrice =
+          document.getElementById(idPhonePriceTot).innerText;
+        const phoneTotalPriceNum = parseInt(phoneTotalPrice);
+        console.log(phoneTotalPriceNum);
+        const coverTotalPrice =
+          document.getElementById(idCoverPriceTot).innerText;
+        const coverTotalPriceNum = parseInt(coverTotalPrice);
+
+        const subTotalPrice = phoneTotalPriceNum + coverTotalPriceNum;
+        document.getElementById("sub-total").innerText = subTotalPrice;
+
+        const taxPrice = document.getElementById("tax").innerText;
+        const taxPriceNum = parseInt(taxPrice);
+
+        document.getElementById("total").innerText =
+          subTotalPrice + taxPriceNum;
+      }
+
+      function plusQuantity(idQuantity) {
+        const Quantity = document.getElementById(idQuantity).value;
+        let QuantityNum = parseFloat(Quantity);
+        QuantityNum++;
+        document.getElementById(idQuantity).value = QuantityNum;
+      }
+
+      function minusQuantity(idQuantity) {
+        const Quantity = document.getElementById(idQuantity).value;
+        let QuantityNum = parseFloat(Quantity);
+        QuantityNum--;
+        document.getElementById(idQuantity).value = QuantityNum;
+      }
+
+      // Phone Minus
+      const phoneMinus = document.getElementById("phone-minus");
+      phoneMinus.addEventListener("click", function () {
+        minusQuantity("phone-quantity");
+        const phoneSinglePrice = 1219;
+        UpdatedPrice("phone-tot-price", -1 * phoneSinglePrice);
+        subTotalAndTotPrice("phone-tot-price", "cover-tot-price");
+      });
+
+      // Phone Plus
+      const phonePlus = document.getElementById("phone-plus");
+      phonePlus.addEventListener("click", function () {
+        plusQuantity("phone-quantity");
+        const phoneSinglePrice = 1219;
+        UpdatedPrice("phone-tot-price", phoneSinglePrice);
+        subTotalAndTotPrice("phone-tot-price", "cover-tot-price");
+      });
+
+      // Cover Minus
+      const coverMinus = document.getElementById("cover-minus");
+      coverMinus.addEventListener("click", function () {
+        minusQuantity("cover-quantity");
+        const coverSinglePrice = 59;
+        UpdatedPrice("cover-tot-price", -1 * coverSinglePrice);
+        subTotalAndTotPrice("phone-tot-price", "cover-tot-price");
+      });
+
+      // Cover Plus
+      const coverPlus = document.getElementById("cover-plus");
+      coverPlus.addEventListener("click", function () {
+        plusQuantity("cover-quantity");
+        const coverSinglePrice = 59;
+        UpdatedPrice("cover-tot-price", coverSinglePrice);
+        subTotalAndTotPrice("phone-tot-price", "cover-tot-price");
+      });
+    </script>
+  </body>
+</html>
